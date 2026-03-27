@@ -71,6 +71,8 @@ window.onload = () => {
   let stars = [];
   const STAR_COUNT = 1500;
   const BRIGHT_STAR_CHANCE = 0.005;
+  const constellationSpeed = 2.0;
+  const starfieldSpeed = 0.2;
   let activeConstellationIndices = [];
   let animationState = 'INITIAL_ALL';
   let singleConstellationIndex = 0;
@@ -178,7 +180,11 @@ window.onload = () => {
     let allConstellationStarsOffScreen = true;
     
     stars.forEach(star => {
-      star.z -= 0.5;
+      if (star.isConstellation) {
+        star.z -= constellationSpeed;
+      } else {
+        star.z -= starfieldSpeed;
+      }
       
       if (star.isConstellation && star.z > 1) {
         allConstellationStarsOffScreen = false;
