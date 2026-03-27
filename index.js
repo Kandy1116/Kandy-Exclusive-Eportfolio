@@ -74,15 +74,15 @@ window.onload = () => {
   let activeConstellationIndices = [];
 
   const constellations = {
-    virgo: [
-      { x: 100, y: -50, connections: [1] },
-      { x: 150, y: 0, connections: [2] },
-      { x: 130, y: 80, connections: [3] },
-      { x: 50, y: 120, connections: [4] },
-      { x: 0, y: 80, connections: [5, 0] },
-      { x: -80, y: 50, connections: [] },
-      { x: 200, y: -80, connections: [1] },
-      { x: 250, y: -40, connections: [6] },
+    virgo: [ // Spica at bottom
+      { x: -20, y: -220, connections: [1] },    // 0: Vindemiatrix
+      { x: -40, y: -70, connections: [2] },     // 1: Minelauva
+      { x: -60, y: -10, connections: [3, 6] },   // 2: Porrima
+      { x: -140, y: -180, connections: [] },   // 3: Heze (no connection from here in map)
+      { x: -200, y: -100, connections: [3] },  // 4: Syrma
+      { x: 0, y: 0, connections: [2, 3] },        // 5: Spica
+      { x: 130, y: -50, connections: [7] },     // 6: Zaniah
+      { x: 150, y: -20, connections: [] }      // 7: Zavijava
     ],
     taurus: [
         { x: 0, y: 0, connections: [1] },
@@ -119,8 +119,8 @@ window.onload = () => {
     Object.values(constellations).forEach((constellation, cIndex) => {
       constellation.forEach(starData => {
         const angle = (cIndex / Object.keys(constellations).length) * 2 * Math.PI;
-        const xOffset = Math.cos(angle) * (canvas.width / 3);
-        const yOffset = Math.sin(angle) * (canvas.height / 3);
+        const xOffset = Math.cos(angle) * (canvas.width / 2.5);
+        const yOffset = Math.sin(angle) * (canvas.height / 2.5);
         stars.push({
           x: starData.x * (canvas.width / 1000) + xOffset,
           y: starData.y * (canvas.height / 800) + yOffset,
