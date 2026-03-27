@@ -225,6 +225,11 @@ window.onload = () => {
             ctx.beginPath();
             ctx.arc(px, py, size, 0, Math.PI * 2);
             ctx.fill();
+            if (isActiveConstellation) {
+                ctx.strokeStyle = constellationLineColor;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
         }
 
         if (isActiveConstellation) {
