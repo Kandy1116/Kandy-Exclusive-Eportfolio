@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kandy Lewandowski</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="style.css?v=99" />
+    <script
+      src="https://kit.fontawesome.com/9d8d894522.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+    
+<script type="text/javascript">
+   (function() {
+      emailjs.init("user_KJXHaU6B8Zzu04vLT");
+      })();
+</script>
+  </head>
+  <body class="dark-theme">
+    <section id="landing-page">
+      <canvas id="starfield"></canvas>
+      <nav>
+        <figure>
+          <img
+            id="personal-logo"
+            src="./assets/KL b&w invert logo 1.jpg"
+            alt=""
+          />
+        </figure>
+        <ul class="nav__link--list">
+          <li class="nav__link" onclick="toggleModal()">
+            <a
+              href="#"
+              class="nav__link--anchor link__hover-effect link__hover-effect--black"
+              >About</a
+            >
+          </li>
+          <li class="nav__link">
+            <a
+              href="#projects"
+              class="nav__link--anchor link__hover-effect link__hover-effect--black"
+              >Projects</a
+            >
+          </li>
+          <li class="nav__link" onclick="toggleModal()">
+            <a
+              href="#"
+              class="nav__link--anchor link__hover-effect link__hover-effect--black"
+              >Contact</a
+            >
+          </li>
+          <li class="nav__link click" onclick="toggleContrast()">
+            <a
+              href="#"
+              class="nav__link--anchor link__hover-effect link__hover-effect--black"
+              ><i class="fas fa-adjust"></i
+            ></a>
+          </li>
+        </ul>
+      </nav>
+      
+      <img class="header__img" src="./assets/Eportfolio YT.png" alt="" />
+      <header class="header">
+        <div class="header__content">
+          <h1 class="title">Hi</h1>
+          <h1 class="title red">I'm Kandy</h1>
+          <p class="header__para">
+            I am a <b class="red">Frontend Software Engineer </b>with a
+            background in construction project management. I enjoy solving
+            complex challenges and using technology to create effective
+            solutions. My focus is on developing intuitive and efficient web
+            applications that make a significant impact.
+            <br />
+            Learn more <b class="red click" onclick="toggleModal()">about me.</b>
+          </p>
+          <div class="social__list">
+            <a
+              href="https://www.linkedin.com/in/kandy-lewandowski"
+              target="_blank"
+              class="social__link click"
+            >
+              <i class="fa-brands fa-square-linkedin"></i>
+            </a>
+            <a
+              href="https://github.com/Kandy1116"
+              target="_blank"
+              class="social__link click"
+            >
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a
+              href="./assets/'26_PM_PL-Kandy Lewandowski Resume.pdf"
+              target="_blank"
+              class="social__link click">
+              <i class="fa-solid fa-file-pdf"></i>
+            </a>
+          </div>
+        </div>
+      </header>
+      <a href="#">
+        <button class="mail__btn click" onclick="toggleModal()">
+          <i class="fa-solid fa-envelope"></i>
+        </button>
+      </a>
+      <a href="#projects" class="scroll">
+        <div class="scroll__icon click"></div>
+        <p class="scroll__text">click for projects</p>
+      </a>
+      <div class="modal">
+        <div class="modal__half modal__about">
+          <h3 class="modal__title modal__title--about">Brief highlight about me.</h3>
+          <h4 class="modal__sub-title modal__sub-title--about">Frontend Software Engineer</h4>
+          <p class="modal__para">
+            I'm a native Texan <b class="red">Frontend Software Engineer </b>with a unique skill set to benefit your team. I focus on collaboration and have <b class="red">strong problem-solving skills </b>from managing complex engineering projects.
+            <br>
+            By merging my project management expertise with technical skills, I aim to <b class="red">create</b> user-centered <b class="red">web applications</b> that deliver impactful digital solutions and <b class="red">drive business results</b>.
+          </p>
+          <div class="modal__languages">
+            <figure class="modal__language">
+              <img class="modal__language--img" src="https://cdn.iconscout.com/icon/free/png-256/html5-40-1175193.png" alt="">
+            <span class="language__name">HTML</span>
+            </figure>
+            <figure class="modal__language">
+              <img class="modal__language--img" src="https://cdn.iconscout.com/icon/free/png-256/css-131-722685.png" alt="">
+            <span class="language__name">CSS</span>
+            </figure>
+            <figure class="modal__language">
+              <img class="modal__language--img" src="https://cdn.iconscout.com/icon/free/png-256/javascript-1-225993.png" alt="">
+            <span class="language__name">JavaScript</span>
+            </figure>
+            <figure class="modal__language">
+              <img class="modal__language--img" src="./assets/react-brands-solid-full.svg" alt="">
+            <span class="language__name">React</span>
+            </figure>
+          </div>
+        </div>
+        <div class="modal__half modal__contact">
+        <i class="fas fa-times modal__exit click" onclick="toggleModal()"></i>
+          <h3 class="modal__title modal__title--contact">
+            Thank you for your consideration.
+          </h3>
+          <h3 class="modal__sub-title modal__sub-title--contact">
+            I look forward to discussing how I can add value to your team.
+          </h3>
+          <form id="contact__form" onsubmit="contact(event)">
+<div class="form__item">
+<label class="form__item--label">Name</label>
+<input class="input" name="user_name" type="text">
+</div>
+<div class="form__item">
+<label class="form__item--label">Email</label>
+<input class="input" name="user_email" type="email">
+</div>
+<div class="form__item">
+<label class="form__item--label">Message</label>
+<textarea class="input" name="message"></textarea>
+</div>
+<button id="contact__submit" class="form__submit" type="submit">
+Let's connect!
+</button>
+</form>
+                   <div class="modal__overlay modal__overlay--loading">
+            <i class="fas fa-spinner"></i>
+          </div>
+          <div class="modal__overlay modal__overlay--success">
+            Your message is greatly appreciated and I will be in contact with you soon!
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <section id="projects">
+      <div class="container">
+        <div class="row">
+          <h1 class="section__title">
+            Here are some of my <span class="red">projects</span>
+          </h1>
+          <ul class="project__list">
+
+            <li class="project">
+              <div class="project__wrapper">
+                <img
+                  class="project__img"
+                  src="./assets/Summarist.jpg"
+                  alt="" />
+                <div class="project__wrapper--bg"></div>
+                <div class="project__description project__description--black-text">
+                  <h3 class="project__description--title">
+                    Summarist Demo
+                  </h3>
+                  <h4 class="project__description--sub-title">
+                    Next.js, React, Node.js, JavaScript (ES6+), Vercel
+                  </h4>
+                  <p class="project__description--para">
+                    This is a demo website I’ve created to showcase my frontend development skills. The user-friendly interface allows visitors to explore various technologies I've worked with. I aim to provide an engaging experience that highlights my capabilities as a developer.</p>
+                  <div class="project__description--links">
+                    <a
+                      href="https://github.com/Kandy1116/frontend-simplified-virtual-internship.git"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                      href="https://frontend-simplified-virtual-interns.vercel.app/"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fas fa-link"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+<li class="project">
+              <div class="project__wrapper">
+                <img
+                  class="project__img"
+                  src="./assets/Library-Ecommerce.jpg"
+                  alt="" />
+                <div class="project__wrapper--bg"></div>
+                <div class="project__description project__description--black-text">
+                  <h3 class="project__description--title">
+                    Library Ecommerce Demo
+                  </h3>
+                  <h4 class="project__description--sub-title">
+                    React, Redux, JavaScript, CSS, Vercel
+                  </h4>
+                  <p class="project__description--para">
+                    This demo e-commerce website, built with React and Redux, showcases my frontend development skills. It offers a clean design for easy product browsing and management. My goal was to create a seamless shopping experience.
+                  </p>
+                  <div class="project__description--links">
+                    <a
+                      href="https://github.com/Kandy1116/Library---React-Ecommerce-Project.git"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                      href="https://library-react-ecommerce-project.vercel.app/"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fas fa-link"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+<li class="project">
+              <div class="project__wrapper">
+                <img
+                  class="project__img"
+                  src="./assets/SKINSTRIC.jpg"
+                  alt="" />
+                <div class="project__wrapper--bg"></div>
+                <div class="project__description project__description--black-text">
+                  <h3 class="project__description--title">
+                    Skinstric Demo
+                  </h3>
+                  <h4 class="project__description--sub-title">
+                    React, TypeScript, CSS, Vercel
+                  </h4>
+                  <p class="project__description--para">
+                    This is a demo website for Skintric AI, a service that provides users with a personalized skincare analysis. The core feature is an "A.I. Test" where a user can upload a photo of their face or take a selfie for the A.I. analysis to generate a highly-personalized skincare routine tailored to the user's specific needs.
+                  </p>
+                  <div class="project__description--links">
+                    <a
+                      href="https://github.com/Kandy1116/skintric-ai-fes.git"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                      href="https://skintric-ai-fes-module-13.vercel.app/"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fas fa-link"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+<li class="project">
+              <div class="project__wrapper">
+                <img
+                  class="project__img"
+                  src="./assets/movie-search-demo.jpg"
+                  alt="" />
+                <div class="project__wrapper--bg"></div>
+                <div class="project__description">
+                  <h3 class="project__description--title">
+                    Movie Search Demo
+                  </h3>
+                  <h4 class="project__description--sub-title">
+                    React, JavaScript, CSS, Vercel, The Movie Database (TMDb) API
+                  </h4>
+                  <p class="project__description--para">
+                    Demo movie search website was created using React and JavaScript. It allows users to search for movies and view details easily. My goal was to provide a smooth and engaging user experience.
+                  </p>
+                  <div class="project__description--links">
+                    <a
+                      href="https://github.com/Kandy1116/movie-search-demo.git"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                      href="https://movie-search-demo-seven.vercel.app/"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fas fa-link"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+<li class="project">
+              <div class="project__wrapper">
+                <img
+                  class="project__img"
+                  src="./assets/Spotify-Clone.jpg"
+                  alt="" />
+                <div class="project__wrapper--bg"></div>
+                <div class="project__description">
+                  <h3 class="project__description--title">
+                    Spotify Clone Demo
+                  </h3>
+                  <h4 class="project__description--sub-title">
+                    React, JavaScript, CSS, Vercel, Spotify API
+                  </h4>
+                  <p class="project__description--para">
+                    Spotify clone was built using React and JavaScript. It lets users browse and play music seamlessly. My aim was to replicate a smooth music streaming experience.</p>
+                  <div class="project__description--links">
+                    <a
+                      href="https://github.com/Kandy1116/Spotify-Clone-Project.git"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                      href="https://spotify-clone-eight-zeta-40.vercel.app/"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fas fa-link"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+<li class="project">
+              <div class="project__wrapper">
+                <img
+                  class="project__img"
+                  src="./assets/UltraverseNFT.jpg"
+                  alt="" />
+                <div class="project__wrapper--bg"></div>
+                <div class="project__description project__description--black-text">
+                  <h3 class="project__description--title">
+                    Ultraverse NFT Marketplace
+                  </h3>
+                  <h4 class="project__description--sub-title">
+                    React, JavaScript, CSS, Vercel, Ethereum blockchain
+                  </h4>
+                  <p class="project__description--para">
+                    This NFT marketplace was developed using React and JavaScript. It allows users to buy, sell, and explore NFTs easily. My goal was to create an intuitive platform for digital asset trading.</p>
+                  <div class="project__description--links">
+                    <a
+                      href="https://github.com/Kandy1116/kandy-internship.git"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                      href="https://ultraverse-nft-marketplace-internsh.vercel.app/"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fas fa-link"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+<li class="project">
+              <div class="project__wrapper">
+                <img
+                  class="project__img"
+                  src="./assets/Kandy-Portfolio.jpg"
+                  alt="" />
+                <div class="project__wrapper--bg"></div>
+                <div class="project__description">
+                  <h3 class="project__description--title">
+                    Kandy Exclusive Portfolio
+                  </h3>
+                  <h4 class="project__description--sub-title">
+                    React, JavaScript, CSS, Vercel
+                  </h4>
+                  <p class="project__description--para">
+                    This e-portfolio was built using React and JavaScript. It showcases my projects and skills in a visually appealing way. My aim was to present my work effectively and professionally.p>
+                  <div class="project__description--links">
+                    <a
+                      href="https://github.com/Kandy1116/kandy-internship.git"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                      href="https://kandy-exclusive-eportfolio.vercel.app/"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fas fa-link"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+<li class="project">
+              <div class="project__wrapper">
+                <img
+                  class="project__img"
+                  src="./assets/LFP-logo-1.jpg"
+                  alt="" />
+                <div class="project__wrapper--bg"></div>
+                <div class="project__description">
+                  <h3 class="project__description--title">
+                    Longhorn Film Productions
+                  </h3>
+                  <h4 class="project__description--sub-title">
+                    React, JavaScript, CSS, Vercel
+                  </h4>
+                  <p class="project__description--para">
+                    This website was built using React and JavaScript and is still under construction. It aims to showcase my work and projects in an engaging format. The goal is to provide a clean and user-friendly experience.p>
+                  <div class="project__description--links">
+                    <a
+                      href="https://github.com/Kandy1116/LFP-Website.git"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a
+                      href="https://lfp-website-six.vercel.app/"
+                      target="_blank"
+                      class="project__description--link"
+                    >
+                      <i class="fas fa-link"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="project">
+              <div class="project__wrapper">
+                <img
+                  class="project__img"
+                  src="./assets/Zayd's Beauty logo.jpg"
+                alt=""
+              />
+              <div class="project__description">
+                <h3 class="project__description--title">Zayd's Beauty - Luxury Hair and Makeup</h3>
+                <br></br>
+                <h3 class="project__description--title">Website in Development</h3>
+                <div class="project__description--links">
+                  <a href="#" class="project__description--link disabled-link">
+                    <i class="fa-brands fa-github"></i>
+                  </a>
+                  <a href="#" class="project__description--link disabled-link">
+                    <i class="fas fa-link"></i>
+                  </a>
+                </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <a href="#landing-page" class="scroll-up">
+        <div class="scroll__icon"></div>
+        <p class="scroll-up__text">back to top</p>
+      </a>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="row footer__row">
+          <figure>
+            <img class="footer__logo--img" src="./assets/KL b&w invert logo 1.jpg" />
+          </figure>
+          <div class="footer__social--list">
+            <a
+              href="https://github.com/Kandy1116" target="_blank"
+              class="footer__social--link link__hover-effect link__hover-effect--white"
+            >
+              Github
+            </a>
+            <a
+              href="https://www.linkedin.com/in/kandy-lewandowski"  target="_blank"
+              class="footer__social--link link__hover-effect link__hover-effect--white"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="#" onclick="toggleModal()"
+              class="footer__social--link link__hover-effect link__hover-effect--white"
+            >
+              Contact
+            </a>
+            <a
+              href="./assets/'26_PM_PL-Kandy Lewandowski Resume.pdf" target="_blank"
+              class="footer__social--link link__hover-effect link__hover-effect--white"
+            >
+              Resume
+            </a>
+          </div>
+          <div class="footer__copyright">
+            Copyright &copy; 2025 Kandy Lewandowski
+          </div>
+        </div>
+      </div>
+    </footer>
+      <script src="index.js?v=99" defer></script>
+  </body>
+</html>
