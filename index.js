@@ -148,6 +148,8 @@ window.onload = () => {
       star.z -= 0.5;
       if (star.z < 1) {
         star.z = canvas.width / 2; // Reset to the middle
+        star.x = Math.random() * canvas.width - canvas.width / 2;
+        star.y = Math.random() * canvas.height - canvas.height / 2;
       }
 
       const k = 128 / star.z;
