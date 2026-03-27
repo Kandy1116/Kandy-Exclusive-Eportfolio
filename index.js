@@ -72,6 +72,8 @@ window.onload = () => {
   const STAR_COUNT = 1500;
   const BRIGHT_STAR_CHANCE = 0.005;
   let activeConstellationIndices = [];
+  let animationState = 'INITIAL_ALL';
+  let singleConstellationIndex = 0;
 
   const constellations = {
     virgo: [ // Spica at bottom
@@ -85,22 +87,42 @@ window.onload = () => {
       { x: 150, y: -20, connections: [] }      // 7: Zavijava
     ],
     taurus: [
-        { x: 0, y: 0, connections: [1] },
-        { x: -80, y: -30, connections: [2] },
-        { x: -120, y: 20, connections: [0] },
-        { x: 40, y: 50, connections: [0] },
-        { x: 90, y: 100, connections: [3] },
-        { x: 150, y: 130, connections: [4] },
+        { x: -150, y: -100, connections: [1] }, // Elnath
+        { x: -50, y: -50, connections: [2] },
+        { x: 0, y: 0, connections: [3, 4] },   // Aldebaran
+        { x: 50, y: -40, connections: [2] },
+        { x: -20, y: 50, connections: [2] },
+        { x: 100, y: 80, connections: [3] },
+        { x: 150, y: 120, connections: [5] },
+        { x: 200, y: 150, connections: [6] }
     ],
     leo: [
-        { x: 0, y: 0, connections: [1] },
-        { x: -50, y: -50, connections: [2] },
-        { x: -20, y: -100, connections: [3] },
-        { x: 40, y: -80, connections: [0] },
-        { x: 80, y: 20, connections: [0] },
-        { x: 130, y: 70, connections: [4] },
+        { x: 80, y: 120, connections: [1] },    // 0: Regulus
+        { x: 50, y: 80, connections: [2] },     // 1
+        { x: 0, y: 0, connections: [1, 3, 5] }, // 2
+        { x: -50, y: 50, connections: [2, 4] }, // 3
+        { x: -250, y: 20, connections: [3] },   // 4: Denebola
+        { x: 20, y: -50, connections: [2, 6] }, // 5: Sickle 1
+        { x: 0, y: -100, connections: [5, 7] }, // 6: Sickle 2
+        { x: 50, y: -120, connections: [6, 8] }, // 7: Sickle 3
+        { x: 80, y: -100, connections: [7] }    // 8: Sickle 4
     ]
   };
+
+  function setupConstellations(state) {
+    const constellationStars = stars.filter(s => s.isConstellation);
+    const zPos = state === 'INITIAL_ALL' ? canvas.width / 4 : canvas.width;
+
+    constellationStars.forEach(star => {
+      star.z = zPos;
+    });
+
+    if (state === 'INITIAL_ALL' || state === 'ALL_AGAIN') {
+      activeConstellationIndices = Object.keys(constellations).map((_, index) => index);
+    } else if (state === 'ONE_BY_ONE') {
+      activeConstellationIndices = [singleConstellationIndex];
+    }
+  }
 
   function init() {
     stars = [];
@@ -118,13 +140,22 @@ window.onload = () => {
 
     Object.values(constellations).forEach((constellation, cIndex) => {
       constellation.forEach(starData => {
-        const angle = (cIndex / Object.keys(constellations).length) * 2 * Math.PI;
-        const xOffset = Math.cos(angle) * (canvas.width / 2.5);
-        const yOffset = Math.sin(angle) * (canvas.height / 2.5);
+        let xOffset = 0;
+        let yOffset = 0;
+        if (cIndex === 0) { // Virgo
+            xOffset = 0;
+            yOffset = -canvas.height / 3.5;
+        } else if (cIndex === 1) { // Taurus
+            xOffset = -canvas.width / 3;
+            yOffset = canvas.height / 4;
+        } else { // Leo
+            xOffset = canvas.width / 3;
+            yOffset = canvas.height / 4;
+        }
         stars.push({
           x: starData.x * (canvas.width / 1000) + xOffset,
           y: starData.y * (canvas.height / 800) + yOffset,
-          z: canvas.width / 4, // All constellations start close
+          z: 0, // Will be set by setupConstellations
           size: 4.5,
           isBright: true,
           isConstellation: true,
@@ -134,7 +165,7 @@ window.onload = () => {
       });
     });
 
-    activeConstellationIndices = Object.keys(constellations).map((_, index) => index);
+    setupConstellations(animationState);
   }
 
   function animate() {
@@ -144,12 +175,21 @@ window.onload = () => {
 
     const projectedConstellations = {};
 
+    let allConstellationStarsOffScreen = true;
+    
     stars.forEach(star => {
       star.z -= 0.5;
+      
+      if (star.isConstellation && star.z > 1) {
+        allConstellationStarsOffScreen = false;
+      }
+
       if (star.z < 1) {
-        star.z = canvas.width / 2; // Reset to the middle
-        star.x = Math.random() * canvas.width - canvas.width / 2;
-        star.y = Math.random() * canvas.height - canvas.height / 2;
+        if (!star.isConstellation) {
+            star.z = canvas.width / 2; // Reset to the middle
+            star.x = Math.random() * canvas.width - canvas.width / 2;
+            star.y = Math.random() * canvas.height - canvas.height / 2;
+        }
       }
 
       const k = 128 / star.z;
@@ -190,6 +230,22 @@ window.onload = () => {
         }
       }
     });
+
+    if (allConstellationStarsOffScreen) {
+        if (animationState === 'INITIAL_ALL' || animationState === 'ALL_AGAIN') {
+            animationState = 'ONE_BY_ONE';
+            singleConstellationIndex = 0;
+            setupConstellations('ONE_BY_ONE');
+        } else if (animationState === 'ONE_BY_ONE') {
+            singleConstellationIndex++;
+            if (singleConstellationIndex >= Object.keys(constellations).length) {
+                animationState = 'ALL_AGAIN';
+                setupConstellations('ALL_AGAIN');
+            } else {
+                setupConstellations('ONE_BY_ONE');
+            }
+        }
+    }
 
     ctx.strokeStyle = constellationLineColor;
     ctx.lineWidth = 0.5;
