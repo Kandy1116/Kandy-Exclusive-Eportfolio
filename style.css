@@ -284,41 +284,6 @@ Landing Page
     margin: 0 auto;
 }
 
-.scroll-up {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 32px 0;
-}
-
-.scroll-up__text {
-    margin-top: 8px;
-    font-size: 14px;
-}
-
-.social__list {
-    margin-top: 16px;
-    display: flex;
-    justify-content: center;
-}
-
-.social__link {
-    background-color: #242424;
-    color: white;
-    padding: 2px;
-    width: 16px;
-    height: 16px;
-    font-size: 8px;
-    margin-right: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-}
-
-
-
 .mail__btn {
     width: 32px;
     height: 32px;
@@ -330,20 +295,6 @@ Landing Page
     position: absolute;
     bottom: 32px;
     right: 40px;
-    z-index: 1;
-}
-
-.mail__btn {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
-    border-radius: 50%;
-    border: none;
-    background-color: #242424;
-    color: white;
-    position: absolute;
-    bottom: 32px;
-    right: 140px;
     z-index: 1;
 }
 
@@ -418,6 +369,11 @@ nav {
     filter: invert(1);
 }
 
+.nav__right {
+    display: flex;
+    align-items: center;
+}
+
 .nav__link--list {
     display: flex;
 }
@@ -436,17 +392,12 @@ nav {
     font-size: 20px;
 }
 
-.nav__right {
-    display: flex;
-    align-items: center;
-}
-
 .nav__buttons {
     display: flex;
     align-items: center;
 }
 
-.btn__menu {
+.btn__menu, .nav__link--mobile {
     background: none;
     border: none;
     font-size: 24px;
@@ -456,7 +407,7 @@ nav {
 }
 
 .menu__backdrop {
-    position: absolute;
+    position: fixed;
     background-color: rgba(0, 0, 0, 0.8);
     top: 0;
     left: 0;
@@ -477,18 +428,27 @@ nav {
 }
 
 .menu--open .menu__links {
-    transform: translateY(0);
+    transform: translateX(0);
 }
 
 .menu__links {
-    transform: translateY(-100%);
+    background-color: #242424;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transform: translateX(-100%);
     transition: transform 300ms ease;
 }
 
 .menu__link {
     color: white;
     font-size: 20px;
-    padding: 12px 0;
+    padding: 24px 0;
     display: block;
     text-align: center;
 }
@@ -1045,8 +1005,7 @@ SHAPES
   .nav__link--list {
     display: none;
   }
-
-  .btn__menu {
+  .btn__menu, .nav__link--mobile {
       display: block;
   }
   .project {
