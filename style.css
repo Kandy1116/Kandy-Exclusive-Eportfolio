@@ -203,6 +203,11 @@ input:focus, textarea:focus {
     transform: scale(0.8);
 }
 
+.btn--mobile.click:hover,
+.btn--mobile.click:active {
+    transform: none;
+}
+
 .title {
     font-size: 120px;
     margin-bottom: 12px;
@@ -1028,7 +1033,7 @@ SHAPES
   .nav__link--list {
     display: none;
   }
-  .btn--mobile, .btn__menu {
+  .btn--mobile {
       display: block;
   }
   .project {
