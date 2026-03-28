@@ -38,13 +38,25 @@ function contact(event) {
     });
 }
 
-function toggleModal() {
+function toggleModal(section = 'about') {
   if (isModalOpen) {
     isModalOpen = false;
     return document.body.classList.remove("modal--open");
   }
   isModalOpen = true;
-  document.body.classList += " modal--open";
+  document.body.classList.add("modal--open");
+
+  // Scroll to the correct section on mobile
+  if (window.innerWidth <= 768) {
+    const selector = section === 'contact' ? '.modal__contact' : '.modal__about';
+    const element = document.querySelector(selector);
+    if (element) {
+      // Use timeout to wait for modal animation
+      setTimeout(() => {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }, 400);
+    }
+  }
 }
 
 function openMenu() {
