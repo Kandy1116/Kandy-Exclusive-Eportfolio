@@ -1046,7 +1046,6 @@ SHAPES
   }
   .btn--mobile {
       display: block;
-      animation: fadeIn 300ms ease-in-out forwards;
   }
   .project {
     width: 100%;
