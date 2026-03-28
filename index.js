@@ -170,7 +170,7 @@ window.onload = () => {
                 shape: 'circle',
                 brightness: Math.random() * 0.2 + 0.8,
                 twinklePhase: Math.random() * Math.PI * 2,
-                twinkleSpeed: (Math.random() * 0.01) + 0.005,
+                twinkleSpeed: (Math.random() * 0.04) + 0.01,
             });
         });
     });
@@ -211,7 +211,7 @@ window.onload = () => {
         shape: shapes[Math.floor(Math.random() * shapes.length)],
         brightness: Math.random() * 0.5 + 0.5,
         twinklePhase: Math.random() * Math.PI * 2,
-        twinkleSpeed: (Math.random() * 0.01) + 0.005,
+        twinkleSpeed: (Math.random() * 0.04) + 0.01,
       });
     }
 
