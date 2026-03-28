@@ -56,6 +56,9 @@
               >Contact</a
             >
           </li>
+          <li class="nav__link click" onclick="toggleContrast()">
+            <a href="#" class="nav__link--anchor"><i class="fas fa-adjust"></i></a>
+          </li>
         </ul>
         <div class="nav__buttons">
             <button class="btn--mobile click" onclick="toggleContrast()">
@@ -67,7 +70,7 @@
         </div>
       </div>
         <div class="menu__backdrop">
-            <button class="btn__menu btn__menu--close" onclick="closeMenu()">
+            <button class="btn__menu btn__menu--close click" onclick="closeMenu()">
                 <i class="fas fa-times"></i>
             </button>
             <ul class="menu__links">
@@ -108,15 +111,14 @@
             <a href="./assets/Kandy Lewandowski Resume.pdf" target="_blank" class="social__link click">
                 <i class="fa-solid fa-file-pdf"></i>
             </a>
+            <a href="#" class="social__link click" onclick="toggleModal('contact')">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
         </div>
         </div>
       </header>
 
-      <a href="#">
-        <button class="mail__btn click" onclick="toggleModal('contact')">
-          <i class="fa-solid fa-envelope"></i>
-        </button>
-      </a>
+
 
       <a href="#projects" class="scroll">
         <div class="scroll__icon click"></div>
