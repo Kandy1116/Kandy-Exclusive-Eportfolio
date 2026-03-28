@@ -284,6 +284,26 @@ Landing Page
     margin: 0 auto;
 }
 
+.social__list {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.social__link {
+    background-color: #242424;
+    color: white;
+    padding: 6px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    margin-right: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
 .mail__btn {
     width: 32px;
     height: 32px;
@@ -397,12 +417,15 @@ nav {
     align-items: center;
 }
 
-.btn__menu, .nav__link--mobile {
+.btn--mobile {
     background: none;
     border: none;
     font-size: 24px;
     color: inherit;
-    display: none;
+    display: none; /* Hide on desktop */
+}
+
+.btn__menu {
     margin-left: 12px;
 }
 
@@ -1005,7 +1028,7 @@ SHAPES
   .nav__link--list {
     display: none;
   }
-  .btn__menu, .nav__link--mobile {
+  .btn--mobile, .btn__menu {
       display: block;
   }
   .project {
