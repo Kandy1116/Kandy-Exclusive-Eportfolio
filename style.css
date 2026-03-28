@@ -818,8 +818,8 @@ FOOTER
 footer {
     position: relative;
     background-color: #f0f0f0;
-    display: flex;
     padding: 6% 0;
+    text-align: center;
 }
 
 .footer__row {
@@ -830,6 +830,7 @@ footer {
 
 .footer__logo--img {
     width: 70px;
+    margin-bottom: 20px;
 }
 
 .footer__social--list {
