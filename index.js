@@ -138,7 +138,9 @@ window.onload = () => {
                 constellationIndex: cIndex,
                 originalIndex: starIndex, // Assign original index
                 shape: 'circle',
-                brightness: Math.random() * 0.2 + 0.8
+                brightness: Math.random() * 0.2 + 0.8,
+                twinklePhase: Math.random() * Math.PI * 2,
+                twinkleSpeed: (Math.random() * 0.01) + 0.005,
             });
         });
     });
@@ -178,6 +180,8 @@ window.onload = () => {
         isMilkyWay: false,
         shape: shapes[Math.floor(Math.random() * shapes.length)],
         brightness: Math.random() * 0.5 + 0.5,
+        twinklePhase: Math.random() * Math.PI * 2,
+        twinkleSpeed: (Math.random() * 0.01) + 0.005,
       });
     }
 
@@ -194,6 +198,10 @@ window.onload = () => {
 
     stars.forEach(star => {
       star.z -= 2.8;
+
+      if (star.isBright) {
+          star.twinklePhase += star.twinkleSpeed;
+      }
 
       if (star.z < 1) {
         if(!star.isConstellation) {
@@ -243,21 +251,20 @@ window.onload = () => {
 
       if (isVisible && (shouldDraw || star.isMilkyWay)) {
         const size = star.size * (256 / star.z);
+        const twinkle = star.isBright ? (Math.sin(star.twinklePhase) * 0.2) + 0.8 : 1;
 
         if (star.isBright && !star.isMilkyWay) {
-          const twinkle = Math.random() * 0.7 + 0.3;
-          const glow = ctx.createRadialGradient(px, py, size, px, py, size * 1.02);
-          glow.addColorStop(0, `rgba(255, 255, 255, ${0.024 * twinkle * opacity})`);
-          glow.addColorStop(0.5, `rgba(0, 0, 100, ${0.01 * twinkle * opacity})`);
+          const glow = ctx.createRadialGradient(px, py, size, px, py, size * 2.5);
+          glow.addColorStop(0, `rgba(255, 255, 255, ${0.4 * twinkle * opacity})`);
+          glow.addColorStop(0.5, `rgba(0, 0, 100, ${0.05 * twinkle * opacity})`);
           glow.addColorStop(1, 'rgba(0, 0, 100, 0)');
           ctx.fillStyle = glow;
           ctx.beginPath();
-          ctx.arc(px, py, size * 1.02, 0, Math.PI * 2);
+          ctx.arc(px, py, size * 2.5, 0, Math.PI * 2);
           ctx.fill();
         }
         
         ctx.save();
-        const twinkle = star.isMilkyWay ? 1 : Math.random() * 0.4 + 0.6;
         ctx.globalAlpha = opacity * star.brightness * twinkle;
         ctx.fillStyle = star.isMilkyWay ? 'rgba(255, 255, 255, 0.5)' : starColor;
         ctx.beginPath();
