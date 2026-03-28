@@ -152,14 +152,45 @@ li {
 }
 
 #landing {
-  position: relative;
+  height: 100vh;
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .title {
+    font-size: 52px;
+  }
+  .nav__link:not(:last-child) {
+    display: none;
+  }
+  .project__description {
+    padding: 0;
+    left: 20px;
+    width: 80%;
+  }
+
+  .project__description--title {
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .project__description--sub-title {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .project__description--link {
+    font-size: 14px;
+  }
+  .modal__half {
+    padding: 40px;#landing {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 header {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 100%;
   max-width: 1000px;
   padding: 0 30px;

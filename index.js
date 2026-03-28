@@ -196,8 +196,11 @@ window.onload = () => {
 
     const projectedConstellations = {};
 
+    const isMobile = window.innerWidth <= 768;
+    const speed = isMobile ? 1.12 : 2.8;
+
     stars.forEach(star => {
-      star.z -= 2.8;
+      star.z -= speed;
 
       if (star.isBright) {
           star.twinklePhase += star.twinkleSpeed;
