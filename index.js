@@ -281,7 +281,15 @@ window.onload = () => {
 
       if (isVisible && (shouldDraw || star.isMilkyWay)) {
         const size = star.size * (256 / star.z);
-        const twinkle = star.isBright ? (Math.sin(star.twinklePhase) * 0.2) + 0.8 : 1;
+        let twinkle;
+        if (star.isConstellation) {
+            // More pronounced blink for constellations
+            const baseTwinkle = (Math.sin(star.twinklePhase) + 1) / 2; // Range 0-1
+            twinkle = Math.pow(baseTwinkle, 20); // Sharpen the peak for a blink effect
+        } else {
+            // Regular twinkle for other stars
+            twinkle = star.isBright ? (Math.sin(star.twinklePhase) * 0.2) + 0.8 : 1;
+        }
 
         if (star.isBright && !star.isMilkyWay) {
           const glow = ctx.createRadialGradient(px, py, size, px, py, size * 2.5);
