@@ -75,13 +75,13 @@
             </button>
             <ul class="menu__links">
                 <li class="menu__list">
-                    <a href="#" class="menu__link" onclick="toggleModal('about')">About</a>
+                    <a href="#" class="menu__link" onclick="toggleModal('about'); closeMenu();">About</a>
                 </li>
                 <li class="menu__list">
-                    <a href="#projects" class="menu__link">Projects</a>
+                    <a href="#projects" class="menu__link" onclick="closeMenu()">Projects</a>
                 </li>
                 <li class="menu__list">
-                    <a href="#" class="menu__link" onclick="toggleModal('contact')">Contact</a>
+                    <a href="#" class="menu__link" onclick="toggleModal('contact'); closeMenu();">Contact</a>
                 </li>
             </ul>
         </div>

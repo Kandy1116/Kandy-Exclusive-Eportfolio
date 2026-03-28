@@ -492,12 +492,12 @@ body.dark-theme .menu__link {
     position: absolute;
     top: 20px;
     right: 20px;
-    color: #242424;
+    color: #fff; /* Match light background */
     font-size: 32px;
 }
 
 body.dark-theme .btn__menu--close {
-    color: #fff;
+    color: #242424; /* Match dark background */
 }
 
 
