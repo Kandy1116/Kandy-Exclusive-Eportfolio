@@ -150,12 +150,11 @@ window.onload = () => {
               yOffset = Math.sin(angle) * (canvas.height / 2.2);
             }
             
-            const stagger = cIndex * canvas.width; // Stagger for timing
             let startZ;
             if (cIndex === 0) { // Virgo
-                startZ = canvas.width + stagger;
+                startZ = canvas.width;
             } else { // Leo and Taurus
-                startZ = (canvas.width * 0.75) + stagger; // Start them closer
+                startZ = (canvas.width * 0.75);
             }
             stars.push({
                 x: starData.x * scale + xOffset,
