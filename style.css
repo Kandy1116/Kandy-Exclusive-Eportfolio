@@ -533,6 +533,10 @@ MODAL
     transform: translateX(-110%);
 }
 
+body.dark-theme .modal__about {
+    color: #242424;
+}
+
 .modal__languages {
     display: flex;
     flex-wrap: wrap;
