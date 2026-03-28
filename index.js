@@ -135,10 +135,21 @@ window.onload = () => {
     Object.values(constellations).forEach((constellation, cIndex) => {
         drawState[cIndex] = { progress: 0, lastUpdate: Date.now() };
         constellation.forEach((starData, starIndex) => {
-            const scale = Math.min(canvas.width, canvas.height) / 720;
-            const angle = (cIndex / Object.keys(constellations).length) * 2 * Math.PI;
-            const xOffset = Math.cos(angle) * (canvas.width / 2.2);
-            const yOffset = Math.sin(angle) * (canvas.height / 2.2);
+            let scale = Math.min(canvas.width, canvas.height) / 720;
+            if (cIndex === 0) { // Make Virgo 30% smaller
+              scale *= 0.7;
+            }
+            let xOffset, yOffset;
+
+            if (cIndex === 0) { // Center Virgo
+              xOffset = 0;
+              yOffset = 0;
+            } else { // Keep other constellations offset
+              const angle = (cIndex / Object.keys(constellations).length) * 2 * Math.PI;
+              xOffset = Math.cos(angle) * (canvas.width / 2.2);
+              yOffset = Math.sin(angle) * (canvas.height / 2.2);
+            }
+            
             const stagger = cIndex * (canvas.width / 2);
             let startZ;
             if (cIndex === 0) { // Virgo (Slowest)
@@ -260,7 +271,7 @@ window.onload = () => {
       if(star.isConstellation) {
         const state = drawState[star.constellationIndex];
         const constellationSize = constellations[Object.keys(constellations)[star.constellationIndex]].length;
-        if(state && now - state.lastUpdate > 200 && state.progress < constellationSize) {
+        if(state && now - state.lastUpdate > (star.constellationIndex === 2 ? 400 : 200) && state.progress < constellationSize) {
             state.progress++;
             state.lastUpdate = now;
         }

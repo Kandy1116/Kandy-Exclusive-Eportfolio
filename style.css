@@ -103,6 +103,11 @@ body.dark-theme .social__link {
     background-color: #6610f2;
 }
 
+body.dark-theme .modal__about {
+    color: #242424;
+}
+
+
 section {
     background-color: transparent;
     transition: all 300ms ease;
@@ -260,19 +265,6 @@ Landing Page
     overflow: hidden;
 }
 
-
-
-.header__img {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    #landing-page {
-        background-image: none;
-    }
-
-}
-
 .header {
     position: absolute;
     top: 50%;
@@ -325,17 +317,39 @@ Landing Page
     border-radius: 50%;
 }
 
+
+
 .mail__btn {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
     border-radius: 50%;
     border: none;
     background-color: #242424;
     color: white;
     position: absolute;
     bottom: 32px;
-    right: 40px;
+    right: 20px; /* Default for mobile */
+    z-index: 1;
+}
+
+@media (min-width: 1201px) {
+    .mail__btn {
+        right: calc((100vw - 1200px) / 2 + 20px);
+    }
+}
+
+.mail__btn {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    border-radius: 50%;
+    border: none;
+    background-color: #242424;
+    color: white;
+    position: absolute;
+    bottom: 32px;
+    right: 140px;
     z-index: 1;
 }
 
@@ -428,12 +442,23 @@ nav {
     font-size: 20px;
 }
 
+.nav__right {
+    display: flex;
+    align-items: center;
+}
+
+.nav__buttons {
+    display: flex;
+    align-items: center;
+}
+
 .btn__menu {
     background: none;
     border: none;
     font-size: 24px;
     color: inherit;
     display: none;
+    margin-left: 12px;
 }
 
 .menu__backdrop {
@@ -468,8 +493,8 @@ nav {
 
 .menu__link {
     color: white;
-    font-size: 24px;
-    padding: 16px 0;
+    font-size: 20px;
+    padding: 12px 0;
     display: block;
     text-align: center;
 }
@@ -479,7 +504,7 @@ nav {
     top: 20px;
     right: 20px;
     color: white;
-    font-size: 32px;
+    font-size: 28px;
 }
 
 
@@ -531,10 +556,6 @@ MODAL
 .modal__about {
     background-color: rgb(245, 245, 245);
     transform: translateX(-110%);
-}
-
-body.dark-theme .modal__about {
-    color: #242424;
 }
 
 .modal__languages {
@@ -1027,8 +1048,11 @@ SHAPES
   .header {
     padding: 0 16px;
   }
-  .nav__link:not(:last-child) {
+  .nav__link--list {
     display: none;
+  }
+  .btn__menu {
+      display: block;
   }
   .project {
     width: 100%;
@@ -1060,6 +1084,7 @@ SHAPES
   .modal__half {
       width: 100%;
   }
+
 }
 
 /* Phones */
@@ -1069,12 +1094,6 @@ SHAPES
     }
     .header__para {
         font-size: 16px;
-    }
-    .nav__link {
-        display: none;
-    }
-    .btn__menu {
-        display: block;
     }
     .project__description--title {
         font-size: 18px;

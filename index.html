@@ -33,6 +33,7 @@
             alt=""
           />
         </figure>
+      <div class="nav__right">
         <ul class="nav__link--list">
           <li class="nav__link" onclick="toggleModal('about')">
             <a
@@ -48,24 +49,27 @@
               >Projects</a
             >
           </li>
-          <li class="nav__link" onclick="toggleModal()">
+          <li class="nav__link" onclick="toggleModal('contact')">
             <a
               href="#"
               class="nav__link--anchor link__hover-effect link__hover-effect--black"
               >Contact</a
             >
           </li>
-          <li class="nav__link click" onclick="toggleContrast()">
-            <a
-              href="#"
-              class="nav__link--anchor link__hover-effect link__hover-effect--black"
-              ><i class="fas fa-adjust"></i
-            ></a>
-          </li>
         </ul>
-        <button class="btn__menu" onclick="openMenu()">
-            <i class="fas fa-bars"></i>
-        </button>
+        <div class="nav__buttons">
+            <li class="nav__link click" onclick="toggleContrast()">
+                <a
+                href="#"
+                class="nav__link--anchor link__hover-effect link__hover-effect--black"
+                ><i class="fas fa-adjust"></i
+                ></a>
+            </li>
+            <button class="btn__menu" onclick="openMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+      </div>
         <div class="menu__backdrop">
             <button class="btn__menu btn__menu--close" onclick="closeMenu()">
                 <i class="fas fa-times"></i>
@@ -79,9 +83,6 @@
                 </li>
                 <li class="menu__list">
                     <a href="#" class="menu__link" onclick="toggleModal('contact')">Contact</a>
-                </li>
-                <li class="menu__list click" onclick="toggleContrast()">
-                    <a href="#" class="menu__link"><i class="fas fa-adjust"></i></a>
                 </li>
             </ul>
         </div>
@@ -125,11 +126,13 @@
           </div>
         </div>
       </header>
+
       <a href="#">
         <button class="mail__btn click" onclick="toggleModal('contact')">
           <i class="fa-solid fa-envelope"></i>
         </button>
       </a>
+
       <a href="#projects" class="scroll">
         <div class="scroll__icon click"></div>
         <p class="scroll__text">click for projects</p>
