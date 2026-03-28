@@ -91,7 +91,7 @@ window.onload = () => {
   let stars = [];
   const STAR_COUNT = window.innerWidth > 768 ? 1500 : 500;
   const BRIGHT_STAR_CHANCE = 0.05;
-  const MILKY_WAY_COUNT = window.innerWidth > 768 ? 5000 : 1000;
+  const MILKY_WAY_COUNT = window.innerWidth > 768 ? 1000 : 200;
   let drawState = {};
 
   const constellations = {
@@ -228,7 +228,7 @@ window.onload = () => {
     const projectedConstellations = {};
 
     stars.forEach(star => {
-      star.z -= 2.8;
+      star.z -= 0.8;
 
       if (star.isBright) {
           star.twinklePhase += star.twinkleSpeed;

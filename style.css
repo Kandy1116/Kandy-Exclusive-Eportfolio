@@ -1046,11 +1046,6 @@ SHAPES
     display: none;
   }
 
-  .menu__list {
-    display: block;
-  }
-
-
   .btn__menu {
       display: block;
   }
@@ -1083,6 +1078,12 @@ SHAPES
   }
   .modal__half {
       width: 100%;
+  }
+  .mail__btn {
+      right: 20px;
+  }
+  .nav__buttons .link__hover-effect::after {
+      display: none;
   }
 
 }
