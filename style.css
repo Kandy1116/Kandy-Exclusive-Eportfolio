@@ -270,13 +270,7 @@ Landing Page
     #landing-page {
         background-image: none;
     }
-    .header__img {
-        display: block;
-        width: 100%;
-        max-width: 500px;
-        margin: 0 auto;
-        padding-top: 48px;
-    }
+
 }
 
 .header {
