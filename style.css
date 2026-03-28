@@ -1046,6 +1046,7 @@ SHAPES
   }
   .btn--mobile {
       display: block;
+      transition: none;
   }
   .project {
     width: 100%;
