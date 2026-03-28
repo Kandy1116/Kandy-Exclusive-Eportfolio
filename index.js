@@ -1,7 +1,7 @@
 // template_91wrldd
 // service_fr3vq0s
 // KJXHaU6B8Zzu04vLT
-let isModalOpen = false; 
+let isModalOpen = false;
 let contrastToggle = true;
 const scaleFactor = 1 / 20;
 
@@ -70,53 +70,101 @@ window.onload = () => {
 
   let stars = [];
   const STAR_COUNT = 1500;
-  const BRIGHT_STAR_CHANCE = 0.005;
-  let activeConstellationIndices = [];
+  const BRIGHT_STAR_CHANCE = 0.05;
+  const MILKY_WAY_COUNT = 5000;
+  let drawState = {};
 
   const constellations = {
-    virgo: [ // Spica at bottom
-      { x: -20, y: -220, connections: [1] },    // 0: Vindemiatrix
-      { x: -40, y: -70, connections: [2] },     // 1: Minelauva
-      { x: -60, y: -10, connections: [3, 6] },   // 2: Porrima
-      { x: -140, y: -180, connections: [] },   // 3: Heze (no connection from here in map)
-      { x: -200, y: -100, connections: [3] },  // 4: Syrma
-      { x: 0, y: 0, connections: [2, 3] },        // 5: Spica
-      { x: 130, y: -50, connections: [7] },     // 6: Zaniah
-      { x: 150, y: -20, connections: [] }      // 7: Zavijava
+    virgo: [
+      { x: -226, y: 118, connections: [1] },
+      { x: -99, y: 7, connections: [2] },
+      { x: -61, y: 225, connections: [3] },
+      { x: 67, y: 26, connections: [4] },
+      { x: 29, y: -72, connections: [5] },
+      { x: 11, y: -225, connections: [] },
+      { x: 138, y: -9, connections: [7] },
+      { x: 226, y: -40, connections: [] }
     ],
     leo: [
-        { x: 80, y: 120, connections: [1] },    // 0: Regulus
-        { x: 50, y: 80, connections: [2] },     // 1
-        { x: 0, y: 0, connections: [1, 3, 5] }, // 2
-        { x: -50, y: 50, connections: [2, 4] }, // 3
-        { x: -250, y: 20, connections: [3] },   // 4: Denebola
-        { x: 20, y: -50, connections: [2, 6] }, // 5: Sickle 1
-        { x: 0, y: -100, connections: [5, 7] }, // 6: Sickle 2
-        { x: 50, y: -120, connections: [6, 8] }, // 7: Sickle 3
-        { x: 80, y: -100, connections: [7] }    // 8: Sickle 4
+      { x: 144, y: -80, connections: [1] },
+      { x: 111, y: -105, connections: [2] },
+      { x: 42, y: -56, connections: [3] },
+      { x: 40, y: -11, connections: [4, 7] },
+      { x: 88, y: 23, connections: [5] },
+      { x: 97, y: 87, connections: [6] },
+      { x: -133, y: 65, connections: [7, 8] },
+      { x: -143, y: -1, connections: [8] },
+      { x: -242, y: 78, connections: [] }
     ],
     taurus: [
-        { x: 0, y: 0, connections: [1] },       // 0: Aldebaran
-        { x: 100, y: -100, connections: [3] },   // 1: Elnath
-        { x: -50, y: -200, connections: [] },    // 2: Pleiades
-        { x: 50, y: 50, connections: [] }        // 3: Hyades
+      { x: 349, y: 175, connections: [1] },
+      { x: 338, y: 155, connections: [2] },
+      { x: 171, y: 116, connections: [3] },
+      { x: 77, y: 58, connections: [4] },
+      { x: 57, y: 21, connections: [5] },
+      { x: 32, y: -6, connections: [6] },
+      { x: -33, y: -77, connections: [7] },
+      { x: -230, y: -181, connections: [] },
+      { x: 35, y: 59, connections: [9] },
+      { x: 1, y: 49, connections: [10] },
+      { x: -284, y: -41, connections: [] }
     ]
   };
 
   function setupConstellations() {
-    const constellationStars = stars.filter(s => s.isConstellation);
-    const baseZ = canvas.width / 2;
-
-    constellationStars.forEach(star => {
-      const stagger = star.constellationIndex * (canvas.width / 4);
-      star.z = baseZ + stagger;
+    Object.values(constellations).forEach((constellation, cIndex) => {
+        drawState[cIndex] = { progress: 0, lastUpdate: Date.now() };
+        constellation.forEach((starData, starIndex) => {
+            const scale = Math.min(canvas.width, canvas.height) / 720;
+            const angle = (cIndex / Object.keys(constellations).length) * 2 * Math.PI;
+            const xOffset = Math.cos(angle) * (canvas.width / 2.2);
+            const yOffset = Math.sin(angle) * (canvas.height / 2.2);
+            const stagger = cIndex * (canvas.width / 2);
+            let startZ;
+            if (cIndex === 0) { // Virgo (Slowest)
+                startZ = (canvas.width / 2.4) + stagger;
+            } else { // Leo and Taurus (Faster)
+                startZ = (canvas.width / 4) + stagger;
+            }
+            stars.push({
+                x: starData.x * scale + xOffset,
+                y: starData.y * scale + yOffset,
+                z: startZ,
+                size: Math.random() * 2 + 3,
+                isBright: true,
+                isConstellation: true,
+                isMilkyWay: false,
+                connections: starData.connections,
+                constellationIndex: cIndex,
+                originalIndex: starIndex, // Assign original index
+                shape: 'circle',
+                brightness: Math.random() * 0.2 + 0.8
+            });
+        });
     });
-
-    activeConstellationIndices = Object.keys(constellations).map((_, index) => index);
   }
 
   function init() {
     stars = [];
+
+    // Milky Way
+    for (let i = 0; i < MILKY_WAY_COUNT; i++) {
+        const x = Math.random() * canvas.width * 2 - canvas.width;
+        const y = (Math.random() - 0.5) * (canvas.height * 0.4) + (x * 0.2);
+        stars.push({
+            x: x,
+            y: y,
+            z: Math.random() * canvas.width,
+            size: Math.random() * 0.5 + 0.1,
+            isBright: false,
+            isConstellation: false,
+            isMilkyWay: true,
+            shape: 'circle',
+            brightness: Math.random() * 0.1 + 0.05, // Very faint
+        });
+    }
+
+    // Starfield
     for (let i = 0; i < STAR_COUNT; i++) {
       const shapes = ['circle', 'square', 'diamond'];
       const isBright = Math.random() < BRIGHT_STAR_CHANCE;
@@ -127,36 +175,17 @@ window.onload = () => {
         size: isBright ? Math.random() * 2 + 1 : Math.random() * 1 + 0.5,
         isBright: isBright,
         isConstellation: false,
+        isMilkyWay: false,
         shape: shapes[Math.floor(Math.random() * shapes.length)],
-        brightness: Math.random() * 0.7 + 0.3
+        brightness: Math.random() * 0.5 + 0.5,
       });
     }
-
-    Object.values(constellations).forEach((constellation, cIndex) => {
-      constellation.forEach(starData => {
-        const scale = Math.min(canvas.width, canvas.height) / 1200;
-        const angle = (cIndex / Object.keys(constellations).length) * 2 * Math.PI;
-        const xOffset = Math.cos(angle) * (canvas.width / 2.2);
-        const yOffset = Math.sin(angle) * (canvas.height / 2.2);
-        stars.push({
-          x: starData.x * scale + xOffset,
-          y: starData.y * scale + yOffset,
-          z: 0, // Will be set by setupConstellations
-          size: Math.random() * 2 + 3, // Random size between 3 and 5
-          isBright: true,
-          isConstellation: true,
-          connections: starData.connections,
-          constellationIndex: cIndex,
-          shape: 'circle', // Constellation stars are always circles
-          brightness: Math.random() * 0.3 + 0.7
-        });
-      });
-    });
 
     setupConstellations();
   }
 
   function animate() {
+    const now = Date.now();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const starColor = document.body.classList.contains('dark-theme') ? 'white' : 'black';
     const constellationLineColor = document.body.classList.contains('dark-theme') ? 'rgba(238, 130, 238, 0.05)' : 'rgba(255, 0, 0, 0.05)';
@@ -164,97 +193,113 @@ window.onload = () => {
     const projectedConstellations = {};
 
     stars.forEach(star => {
-      star.z -= 0.7;
+      star.z -= 2.8;
 
       if (star.z < 1) {
         if(!star.isConstellation) {
-            star.z = canvas.width / 2; // Reset to the middle
-            star.x = Math.random() * canvas.width - canvas.width / 2;
-            star.y = Math.random() * canvas.height - canvas.height / 2;
+            star.z = canvas.width;
+            star.x = star.isMilkyWay ? Math.random() * canvas.width * 2 - canvas.width : Math.random() * canvas.width - canvas.width / 2;
+            star.y = star.isMilkyWay ? (Math.random() - 0.5) * (canvas.height * 0.4) + (star.x * 0.2) : Math.random() * canvas.height - canvas.height / 2;
         } else {
-            const stagger = star.constellationIndex * (canvas.width / 4);
-            star.z = (canvas.width / 2) + stagger;
+            const stagger = star.constellationIndex * (canvas.width / 2);
+            if (star.constellationIndex === 0) { // Virgo (Slowest)
+                star.z = (canvas.width / 2.4) + stagger;
+            } else { // Leo and Taurus (Faster)
+                star.z = (canvas.width / 4) + stagger;
+            }
+            if(drawState[star.constellationIndex]) {
+                drawState[star.constellationIndex].progress = 0; // Reset progress
+            }
         }
       }
 
-      const k = 256 / star.z;
-      const px = star.x * k + canvas.width / 2;
-      const py = star.y * k + canvas.height / 2;
+      let px = star.x * (256 / star.z) + canvas.width / 2;
+      const py = star.y * (256 / star.z) + canvas.height / 2;
 
-      let opacity = 1;
-      if (star.z < 128) { // Fade out stars as they get very close
-          opacity = 1 - (128 - star.z) / 128;
+      if (star.isConstellation) {
+        const curveFactor = Math.sin((1 - (star.z / (canvas.width * 2))) * Math.PI);
+        px += curveFactor * 300; // Apply a curve to the x-position
       }
 
+      let opacity = 1;
+      if (star.isBright && star.z < 512) { // Fade out only the brightest stars
+          opacity = Math.pow(star.z / 512, 2);
+      }
 
       const isVisible = px > 0 && px < canvas.width && py > 0 && py < canvas.height;
-      const isActiveConstellation = star.isConstellation && activeConstellationIndices.includes(star.constellationIndex);
+      let shouldDraw = !star.isConstellation;
 
-      if (isVisible) {
-        const size = star.size * k;
+      if(star.isConstellation) {
+        const state = drawState[star.constellationIndex];
+        const constellationSize = constellations[Object.keys(constellations)[star.constellationIndex]].length;
+        if(state && now - state.lastUpdate > 200 && state.progress < constellationSize) {
+            state.progress++;
+            state.lastUpdate = now;
+        }
+        if(state && star.originalIndex < state.progress) {
+            shouldDraw = true;
+        }
+      }
 
-        if (star.isBright) {
-          const twinkle = Math.random() * 0.5 + 0.5;
-          const glow = ctx.createRadialGradient(px, py, size, px, py, size * 4);
-          glow.addColorStop(0, `rgba(255, 255, 255, ${0.6 * twinkle * opacity})`);
-          glow.addColorStop(0.5, `rgba(173, 216, 230, ${0.2 * twinkle * opacity})`);
-          glow.addColorStop(1, 'rgba(173, 216, 230, 0)');
+      if (isVisible && (shouldDraw || star.isMilkyWay)) {
+        const size = star.size * (256 / star.z);
+
+        if (star.isBright && !star.isMilkyWay) {
+          const twinkle = Math.random() * 0.7 + 0.3;
+          const glow = ctx.createRadialGradient(px, py, size, px, py, size * 1.02);
+          glow.addColorStop(0, `rgba(255, 255, 255, ${0.024 * twinkle * opacity})`);
+          glow.addColorStop(0.5, `rgba(0, 0, 100, ${0.01 * twinkle * opacity})`);
+          glow.addColorStop(1, 'rgba(0, 0, 100, 0)');
           ctx.fillStyle = glow;
           ctx.beginPath();
-          ctx.arc(px, py, size * 4, 0, Math.PI * 2);
+          ctx.arc(px, py, size * 1.02, 0, Math.PI * 2);
           ctx.fill();
         }
         
-        if (!star.isConstellation || isActiveConstellation) {
-            ctx.save();
-            const twinkle = Math.random() * 0.4 + 0.6; // Random factor between 0.6 and 1.0
-            ctx.globalAlpha = opacity * star.brightness * twinkle;
-            ctx.fillStyle = starColor;
-            ctx.beginPath();
-            if (star.shape === 'circle') {
-                ctx.arc(px, py, size, 0, Math.PI * 2);
-            } else if (star.shape === 'square') {
-                ctx.rect(px - size / 2, py - size / 2, size, size);
-            } else if (star.shape === 'diamond') {
-                ctx.moveTo(px, py - size);
-                ctx.lineTo(px + size, py);
-                ctx.lineTo(px, py + size);
-                ctx.lineTo(px - size, py);
-                ctx.closePath();
-            }
-            ctx.fill();
-            if (isActiveConstellation) {
-                ctx.strokeStyle = constellationLineColor;
-                ctx.lineWidth = 1;
-                ctx.stroke();
-            }
-            ctx.restore();
+        ctx.save();
+        const twinkle = star.isMilkyWay ? 1 : Math.random() * 0.4 + 0.6;
+        ctx.globalAlpha = opacity * star.brightness * twinkle;
+        ctx.fillStyle = star.isMilkyWay ? 'rgba(255, 255, 255, 0.5)' : starColor;
+        ctx.beginPath();
+        if (star.shape === 'circle') {
+            ctx.arc(px, py, size, 0, Math.PI * 2);
+        } else if (star.shape === 'square') {
+            ctx.rect(px - size / 2, py - size / 2, size, size);
+        } else if (star.shape === 'diamond') {
+            ctx.moveTo(px, py - size);
+            ctx.lineTo(px + size, py);
+            ctx.lineTo(px, py + size);
+            ctx.lineTo(px - size, py);
+            ctx.closePath();
         }
+        ctx.fill();
+        ctx.restore();
 
-        if (isActiveConstellation) {
+        if (star.isConstellation) {
           if (!projectedConstellations[star.constellationIndex]) {
             projectedConstellations[star.constellationIndex] = [];
           }
-          const originalIndex = stars.filter(s => s.isConstellation && s.constellationIndex === star.constellationIndex).indexOf(star);
-          projectedConstellations[star.constellationIndex][originalIndex] = { x: px, y: py, connections: star.connections };
+          projectedConstellations[star.constellationIndex][star.originalIndex] = { x: px, y: py, connections: star.connections };
         }
       }
     });
 
     ctx.strokeStyle = constellationLineColor;
-    Object.values(projectedConstellations).forEach(constellation => {
-      constellation.forEach((star, index) => {
-        if (star) {
-          star.connections.forEach(connIndex => {
-            if (constellation[connIndex]) {
-              ctx.beginPath();
-              ctx.moveTo(star.x, star.y);
-              ctx.lineTo(constellation[connIndex].x, constellation[connIndex].y);
-              ctx.stroke();
+    Object.keys(projectedConstellations).forEach(cIndex => {
+        const constellation = projectedConstellations[cIndex];
+        const progress = drawState[cIndex] ? drawState[cIndex].progress : 0;
+        constellation.forEach((star, index) => {
+            if (star && index < progress) {
+                star.connections.forEach(connIndex => {
+                    if (constellation[connIndex] && connIndex < progress) {
+                        ctx.beginPath();
+                        ctx.moveTo(star.x, star.y);
+                        ctx.lineTo(constellation[connIndex].x, constellation[connIndex].y);
+                        ctx.stroke();
+                    }
+                });
             }
-          });
-        }
-      });
+        });
     });
 
     requestAnimationFrame(animate);
