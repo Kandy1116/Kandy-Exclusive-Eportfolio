@@ -93,7 +93,6 @@ window.onload = () => {
   const BRIGHT_STAR_CHANCE = 0.2;
   const MILKY_WAY_COUNT = window.innerWidth > 768 ? 1000 : 200;
   let drawState = {};
-
   const constellations = {
     virgo: [
       { x: -226, y: 118, connections: [1] },
@@ -112,7 +111,7 @@ window.onload = () => {
       { x: 40, y: -11, connections: [4, 7] },
       { x: 88, y: 23, connections: [5] },
       { x: 97, y: 87, connections: [6] },
-      { x: -133, y: 65, connections: [7, 8] },
+      { x: -133, y: 65, connections: [7] },
       { x: -143, y: -1, connections: [8] },
       { x: -242, y: 78, connections: [] }
     ],
@@ -132,49 +131,54 @@ window.onload = () => {
   };
 
   function setupConstellations() {
-    Object.values(constellations).forEach((constellation, cIndex) => {
-        drawState[cIndex] = { progress: 0, lastUpdate: Date.now() };
-        constellation.forEach((starData, starIndex) => {
-            let scale = Math.min(canvas.width, canvas.height) / 720;
-            if (cIndex === 0) { // Make Virgo 30% smaller
-              scale *= 0.7;
-            }
-            let xOffset, yOffset;
+      Object.keys(constellations).forEach((name, cIndex) => {
+        drawState[cIndex] = { progress: 0, lastUpdate: 0 };
+        const constellation = constellations[name];
 
-            if (cIndex === 0) { // Start Virgo on the right
-              xOffset = canvas.width / 2.5;
-              yOffset = 0;
-            } else { // Keep other constellations offset
-              const angle = (cIndex / Object.keys(constellations).length) * 2 * Math.PI;
-              xOffset = Math.cos(angle) * (canvas.width / 2.2);
-              yOffset = Math.sin(angle) * (canvas.height / 2.2);
-            }
-            
-            let startZ;
-            if (cIndex === 0) { // Virgo
-                startZ = canvas.width;
-            } else { // Leo and Taurus
-                startZ = (canvas.width * 0.75);
-            }
-            stars.push({
-                x: starData.x * scale + xOffset,
-                y: starData.y * scale + yOffset,
-                z: startZ,
-                size: Math.random() * 2 + 3,
-                isBright: true,
-                isConstellation: true,
-                isMilkyWay: false,
-                connections: starData.connections,
-                constellationIndex: cIndex,
-                originalIndex: starIndex, // Assign original index
-                shape: 'circle',
-                brightness: Math.random() * 0.2 + 0.8,
-                twinklePhase: Math.random() * Math.PI * 2,
-                twinkleSpeed: (Math.random() * 0.04) + 0.01,
-            });
+        // Spatially distribute constellations to avoid clustering
+        const numConstellations = Object.keys(constellations).length;
+        const angle = (cIndex / numConstellations) * 2 * Math.PI;
+        const radius = canvas.width * 0.4; // 80% of canvas half-width, ensuring separation
+
+        // Add randomness to the position to avoid a perfect circle
+        const jitterAngle = (Math.random() - 0.5) * 0.5; // Random angle offset
+        const jitterRadius = (Math.random() * 0.4 - 0.2); // Random radius offset (-20% to +20%)
+
+        const xOffset = Math.cos(angle + jitterAngle) * radius * (1 + jitterRadius);
+        // Use a smaller radius for the y-axis to create a more elliptical, aesthetically pleasing distribution on widescreen monitors.
+        const yOffset = Math.sin(angle + jitterAngle) * (radius * 0.6) * (1 + jitterRadius);
+
+        constellation.forEach((starData, starIndex) => {
+          let scale = Math.min(canvas.width, canvas.height) / 720;
+          if (cIndex === 0) { // Make Virgo 30% smaller
+            scale *= 0.7;
+          }
+
+          let startZ;
+          if (cIndex === 0) { // Virgo
+            startZ = canvas.width;
+          } else { // Leo and Taurus start closer
+            startZ = canvas.width * 0.75;
+          }
+          stars.push({
+            x: starData.x * scale + xOffset,
+            y: starData.y * scale + yOffset,
+            z: startZ,
+            size: Math.random() * 2 + 4, // All constellation stars are larger
+            isBright: true,
+            isConstellation: true,
+            isMilkyWay: false,
+            connections: starData.connections,
+            constellationIndex: cIndex,
+            originalIndex: starIndex, // Assign original index
+            shape: 'circle',
+            brightness: Math.random() * 0.2 + 0.8,
+            twinklePhase: Math.random() * Math.PI * 2,
+            twinkleSpeed: (Math.random() * 0.02) + 0.005, // Slower speed for a glowing effect
+          });
         });
-    });
-  }
+      });
+    }
 
   function init() {
     stars = [];
@@ -204,14 +208,15 @@ window.onload = () => {
         x: Math.random() * canvas.width - canvas.width / 2,
         y: Math.random() * canvas.height - canvas.height / 2,
         z: Math.random() * canvas.width,
-        size: isBright ? Math.random() * 2 + 1 : Math.random() * 1 + 0.5,
+        size: isBright ? Math.random() * 1 + 1 : Math.random() * 1 + 0.5, // Bright stars are smaller
         isBright: isBright,
         isConstellation: false,
         isMilkyWay: false,
-        shape: shapes[Math.floor(Math.random() * shapes.length)],
+        shape: isBright ? 'diamond' : ['circle', 'square'][Math.floor(Math.random() * 2)],
         brightness: Math.random() * 0.5 + 0.5,
         twinklePhase: Math.random() * Math.PI * 2,
-        twinkleSpeed: (Math.random() * 0.04) + 0.01,
+        twinkleSpeed: isBright ? (Math.random() * 0.36) + 0.09 : 0,
+        shouldTwinkle: isBright,
       });
     }
 
@@ -229,7 +234,7 @@ window.onload = () => {
     stars.forEach(star => {
       star.z -= 0.8;
 
-      if (star.isBright) {
+      if (star.shouldTwinkle || star.isConstellation) {
           star.twinklePhase += star.twinkleSpeed;
       }
 
@@ -239,7 +244,7 @@ window.onload = () => {
             star.x = star.isMilkyWay ? Math.random() * canvas.width * 2 - canvas.width : Math.random() * canvas.width - canvas.width / 2;
             star.y = star.isMilkyWay ? (Math.random() - 0.5) * (canvas.height * 0.4) + (star.x * 0.2) : Math.random() * canvas.height - canvas.height / 2;
         } else {
-            const stagger = star.constellationIndex * (canvas.width / 2);
+            const stagger = star.constellationIndex * (canvas.width * 1.5);
             if (star.constellationIndex === 0) { // Virgo
                 star.z = canvas.width + stagger;
             } else { // Leo and Taurus
@@ -259,72 +264,96 @@ window.onload = () => {
         px += curveFactor * 300; // Apply a curve to the x-position
       }
 
-      let opacity = 1;
-      if (star.isBright && star.z < 512) { // Fade out only the brightest stars
-          opacity = Math.pow(star.z / 512, 2);
-      }
-
       const isVisible = px > 0 && px < canvas.width && py > 0 && py < canvas.height;
-      let shouldDraw = !star.isConstellation;
+      
+      // --- Start of new robust rendering logic ---
+      if (isVisible) {
+        let opacity = 0;
 
-      if(star.isConstellation) {
-        const state = drawState[star.constellationIndex];
-        const constellationSize = constellations[Object.keys(constellations)[star.constellationIndex]].length;
-        if(state && now - state.lastUpdate > 350 && state.progress < constellationSize) {
-            state.progress++;
-            state.lastUpdate = now;
-        }
-        if(state && star.originalIndex < state.progress) {
-            shouldDraw = true;
-        }
-      }
-
-      if (isVisible && (shouldDraw || star.isMilkyWay)) {
-        const size = star.size * (256 / star.z);
-        let twinkle;
         if (star.isConstellation) {
-            // More pronounced blink for constellations
-            const baseTwinkle = (Math.sin(star.twinklePhase) + 1) / 2; // Range 0-1
-            twinkle = Math.pow(baseTwinkle, 20); // Sharpen the peak for a blink effect
-        } else {
-            // Regular twinkle for other stars
-            twinkle = star.isBright ? (Math.sin(star.twinklePhase) * 0.2) + 0.8 : 1;
-        }
+          const state = drawState[star.constellationIndex];
+          const constellationSize = constellations[Object.keys(constellations)[star.constellationIndex]].length;
+          
+          if(state && now - state.lastUpdate > 350 && state.progress < constellationSize) {
+              state.progress++;
+              state.lastUpdate = now;
+          }
 
-        if (star.isBright && !star.isMilkyWay) {
-          const glow = ctx.createRadialGradient(px, py, size, px, py, size * 2.5);
-          glow.addColorStop(0, `rgba(255, 255, 255, ${0.4 * twinkle * opacity})`);
-          glow.addColorStop(0.5, `rgba(0, 0, 100, ${0.05 * twinkle * opacity})`);
-          glow.addColorStop(1, 'rgba(0, 0, 100, 0)');
-          ctx.fillStyle = glow;
-          ctx.beginPath();
-          ctx.arc(px, py, size * 2.5, 0, Math.PI * 2);
-          ctx.fill();
+          if(state && star.originalIndex < state.progress) {
+            // Fade out constellations as they approach the screen
+            const fadeStartDistance = canvas.width * 0.8; // Start fading when they are 80% through
+            if (star.z < fadeStartDistance) {
+                opacity = Math.pow(star.z / fadeStartDistance, 2);
+            } else {
+                opacity = 1;
+            }
+          }
+
+        } else { // It's a regular star or milky way
+            opacity = 1; // Starfield stars do not fade
         }
         
-        ctx.save();
-        ctx.globalAlpha = opacity * star.brightness * twinkle;
-        ctx.fillStyle = star.isMilkyWay ? 'rgba(255, 255, 255, 0.5)' : starColor;
-        ctx.beginPath();
-        if (star.shape === 'circle') {
-            ctx.arc(px, py, size, 0, Math.PI * 2);
-        } else if (star.shape === 'square') {
-            ctx.rect(px - size / 2, py - size / 2, size, size);
-        } else if (star.shape === 'diamond') {
-            ctx.moveTo(px, py - size);
-            ctx.lineTo(px + size, py);
-            ctx.lineTo(px, py + size);
-            ctx.lineTo(px - size, py);
-            ctx.closePath();
-        }
-        ctx.fill();
-        ctx.restore();
+        if (opacity > 0) { // Only draw if the star is visible
+            let size = star.size * (256 / star.z);
+            let twinkle = 1;
 
-        if (star.isConstellation) {
-          if (!projectedConstellations[star.constellationIndex]) {
-            projectedConstellations[star.constellationIndex] = [];
-          }
-          projectedConstellations[star.constellationIndex][star.originalIndex] = { x: px, y: py, connections: star.connections };
+            if (star.isConstellation) {
+                const glowPhase = (Math.sin(star.twinklePhase) + 1) / 2; // Varies from 0 to 1
+                size *= (1 + glowPhase * 0.5); // Glows up to 50% bigger
+                twinkle = 0.5 + glowPhase * 0.5; // Fades from 50% to 100% opacity
+            } else if (star.shouldTwinkle) {
+                twinkle = (Math.sin(star.twinklePhase) * 0.4) + 0.6; // A gentler twinkle for starfield stars
+            }
+
+            const finalOpacity = opacity * star.brightness * twinkle;
+
+            if (star.isBright && !star.isMilkyWay) {
+              let glowRadius, whiteOpacity, blueOpacity;
+
+              if (star.isConstellation) {
+                glowRadius = size * 4;
+                whiteOpacity = 0.8 * finalOpacity;
+                blueOpacity = 0.15 * finalOpacity;
+              } else { // Bright starfield stars
+                glowRadius = size * 2.5;
+                whiteOpacity = 0.4 * finalOpacity;
+                blueOpacity = 0.05 * finalOpacity;
+              }
+
+              const glow = ctx.createRadialGradient(px, py, size, px, py, glowRadius);
+              glow.addColorStop(0, `rgba(255, 255, 255, ${whiteOpacity})`);
+              glow.addColorStop(0.5, `rgba(0, 0, 100, ${blueOpacity})`);
+              glow.addColorStop(1, 'rgba(0, 0, 100, 0)');
+              ctx.fillStyle = glow;
+              ctx.beginPath();
+              ctx.arc(px, py, glowRadius, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            
+            ctx.save();
+            ctx.globalAlpha = finalOpacity;
+            ctx.fillStyle = star.isMilkyWay ? 'rgba(255, 255, 255, 0.5)' : starColor;
+            ctx.beginPath();
+            if (star.shape === 'circle') {
+                ctx.arc(px, py, size, 0, Math.PI * 2);
+            } else if (star.shape === 'square') {
+                ctx.rect(px - size / 2, py - size / 2, size, size);
+            } else if (star.shape === 'diamond') {
+                ctx.moveTo(px, py - size);
+                ctx.lineTo(px + size, py);
+                ctx.lineTo(px, py + size);
+                ctx.lineTo(px - size, py);
+                ctx.closePath();
+            }
+            ctx.fill();
+            ctx.restore();
+
+            if (star.isConstellation) {
+              if (!projectedConstellations[star.constellationIndex]) {
+                projectedConstellations[star.constellationIndex] = [];
+              }
+              projectedConstellations[star.constellationIndex][star.originalIndex] = { x: px, y: py, connections: star.connections, opacity: finalOpacity };
+            }
         }
       }
     });
@@ -337,10 +366,13 @@ window.onload = () => {
             if (star && index < progress) {
                 star.connections.forEach(connIndex => {
                     if (constellation[connIndex] && connIndex < progress) {
+                        ctx.save();
+                        ctx.globalAlpha = Math.min(star.opacity, constellation[connIndex].opacity); // Fade lines with stars
                         ctx.beginPath();
                         ctx.moveTo(star.x, star.y);
                         ctx.lineTo(constellation[connIndex].x, constellation[connIndex].y);
                         ctx.stroke();
+                        ctx.restore();
                     }
                 });
             }
