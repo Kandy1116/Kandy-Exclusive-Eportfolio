@@ -47,6 +47,14 @@ function toggleModal() {
   document.body.classList += " modal--open";
 }
 
+function openMenu() {
+    document.body.classList += " menu--open";
+}
+
+function closeMenu() {
+    document.body.classList.remove("menu--open");
+}
+
 window.onload = () => {
   function moveBackground(event) {
     const shapes = document.querySelectorAll(".shape");
@@ -69,9 +77,9 @@ window.onload = () => {
   canvas.height = window.innerHeight;
 
   let stars = [];
-  const STAR_COUNT = 1500;
+  const STAR_COUNT = window.innerWidth > 768 ? 1500 : 500;
   const BRIGHT_STAR_CHANCE = 0.05;
-  const MILKY_WAY_COUNT = 5000;
+  const MILKY_WAY_COUNT = window.innerWidth > 768 ? 5000 : 1000;
   let drawState = {};
 
   const constellations = {
