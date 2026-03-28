@@ -90,7 +90,7 @@ window.onload = () => {
 
   let stars = [];
   const STAR_COUNT = window.innerWidth > 768 ? 1500 : 500;
-  const BRIGHT_STAR_CHANCE = 0.05;
+  const BRIGHT_STAR_CHANCE = 0.2;
   const MILKY_WAY_COUNT = window.innerWidth > 768 ? 1000 : 200;
   let drawState = {};
 
