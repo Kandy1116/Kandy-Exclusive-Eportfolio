@@ -59,13 +59,7 @@ function toggleModal(section = 'about') {
   }
 }
 
-function openMenu() {
-    document.body.classList += " menu--open";
-}
 
-function closeMenu() {
-    document.body.classList.remove("menu--open");
-}
 
 window.onload = () => {
   function moveBackground(event) {
