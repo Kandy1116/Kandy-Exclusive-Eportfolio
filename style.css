@@ -329,14 +329,8 @@ Landing Page
     color: white;
     position: absolute;
     bottom: 32px;
-    right: 20px; /* Default for mobile */
+    right: 40px;
     z-index: 1;
-}
-
-@media (min-width: 1201px) {
-    .mail__btn {
-        right: calc((100vw - 1200px) / 2 + 20px);
-    }
 }
 
 .mail__btn {
@@ -1051,6 +1045,12 @@ SHAPES
   .nav__link--list {
     display: none;
   }
+
+  .menu__list {
+    display: block;
+  }
+
+
   .btn__menu {
       display: block;
   }

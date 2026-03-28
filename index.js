@@ -141,8 +141,8 @@ window.onload = () => {
             }
             let xOffset, yOffset;
 
-            if (cIndex === 0) { // Center Virgo
-              xOffset = 0;
+            if (cIndex === 0) { // Start Virgo on the right
+              xOffset = canvas.width / 2.5;
               yOffset = 0;
             } else { // Keep other constellations offset
               const angle = (cIndex / Object.keys(constellations).length) * 2 * Math.PI;
@@ -150,12 +150,12 @@ window.onload = () => {
               yOffset = Math.sin(angle) * (canvas.height / 2.2);
             }
             
-            const stagger = cIndex * (canvas.width / 2);
+            const stagger = cIndex * canvas.width; // Stagger for timing
             let startZ;
-            if (cIndex === 0) { // Virgo (Slowest)
-                startZ = (canvas.width / 2.4) + stagger;
-            } else { // Leo and Taurus (Faster)
-                startZ = (canvas.width / 4) + stagger;
+            if (cIndex === 0) { // Virgo
+                startZ = canvas.width + stagger;
+            } else { // Leo and Taurus
+                startZ = (canvas.width * 0.75) + stagger; // Start them closer
             }
             stars.push({
                 x: starData.x * scale + xOffset,
@@ -241,10 +241,10 @@ window.onload = () => {
             star.y = star.isMilkyWay ? (Math.random() - 0.5) * (canvas.height * 0.4) + (star.x * 0.2) : Math.random() * canvas.height - canvas.height / 2;
         } else {
             const stagger = star.constellationIndex * (canvas.width / 2);
-            if (star.constellationIndex === 0) { // Virgo (Slowest)
-                star.z = (canvas.width / 2.4) + stagger;
-            } else { // Leo and Taurus (Faster)
-                star.z = (canvas.width / 4) + stagger;
+            if (star.constellationIndex === 0) { // Virgo
+                star.z = canvas.width + stagger;
+            } else { // Leo and Taurus
+                star.z = (canvas.width * 0.75) + stagger;
             }
             if(drawState[star.constellationIndex]) {
                 drawState[star.constellationIndex].progress = 0; // Reset progress
@@ -271,7 +271,7 @@ window.onload = () => {
       if(star.isConstellation) {
         const state = drawState[star.constellationIndex];
         const constellationSize = constellations[Object.keys(constellations)[star.constellationIndex]].length;
-        if(state && now - state.lastUpdate > (star.constellationIndex === 2 ? 400 : 200) && state.progress < constellationSize) {
+        if(state && now - state.lastUpdate > 350 && state.progress < constellationSize) {
             state.progress++;
             state.lastUpdate = now;
         }
