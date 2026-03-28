@@ -428,15 +428,6 @@ nav {
     font-size: 20px;
 }
 
-.btn__menu {
-    font-size: 16px;
-    padding: 8px 20px;
-    border-radius: 8px;
-    background-color: rgba(0, 110, 255, 0.25);
-    border: 1px solid rgba(0, 110, 255, 0.5);
-    display: none;
-}
-
 
 
 
@@ -984,9 +975,6 @@ SHAPES
   .header {
     padding: 0 16px;
   }
-  .nav__link:not(:last-child) {
-    display: none;
-  }
   .project {
     width: 100%;
     padding-bottom: 64px;
@@ -1026,12 +1014,6 @@ SHAPES
     }
     .header__para {
         font-size: 16px;
-    }
-    .nav__link {
-        display: none;
-    }
-    .btn__menu {
-        display: block;
     }
     .project__description--title {
         font-size: 18px;
