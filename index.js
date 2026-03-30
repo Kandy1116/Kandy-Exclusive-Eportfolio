@@ -391,3 +391,11 @@ window.onload = () => {
   init();
   animate();
 };
+
+document.querySelectorAll('.project__info-btn').forEach(button => {
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+        const projectWrapper = button.closest('.project__wrapper');
+        projectWrapper.classList.toggle('project--clicked');
+    });
+});
