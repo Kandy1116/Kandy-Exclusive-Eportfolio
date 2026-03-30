@@ -296,7 +296,7 @@ Landing Page
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: none;
+  box-shadow: 0 20px 80px 0 rgb(0 0 0 / 45%);
 }
 
 body.dark-theme .header__content--bg {
