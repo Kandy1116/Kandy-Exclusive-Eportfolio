@@ -1,26 +1,12 @@
 WHAT IT DOES
 A personal portfolio that showcases interactive frontend projects, UI design work, and product-focused development.
 
-TECH STACK
-Next.js
-React
-Tailwind CSS
-JavaScript
-Vercel
+Tech Stack: Next.js, React, TypeScript, Tailwind CSS, Vercel
 
-HOW TO RUN LOCALLY
+Run Locally:
+1. Clone repo: `git clone https://github.com/Kandy1116/KandyPortfolio.git`
+2. Install dependencies: `npm install`
+3. Start dev server: `npm run dev`
+4. Open `http://localhost:3000` in your browser
 
-Clone the repository
-git clone https://github.com/Kandy1116/KandyPortfolio.git
-
-Navigate into the project folder
-cd KandyPortfolio
-
-Install dependencies
-npm install
-
-Start the development server
-npm run dev
-
-Open in your browser
-http://localhost:3000
+Live Demo: [KandyPortfolio Live](https://kandy-exclusive-eportfolio.vercel.app)
